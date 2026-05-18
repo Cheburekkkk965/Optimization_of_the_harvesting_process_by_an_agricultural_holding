@@ -401,7 +401,7 @@ class MetricsCalculator:
                 })
             daily[k] = days_data
         
-        # 🔥 Диагностика
+
         total_harvest = sum(d['harvest_tons'] for days in daily.values() for d in days)
         total_overtime = sum(d['overtime_hours'] for days in daily.values() for d in days)
         if total_harvest < 1.0 and daily:
@@ -650,8 +650,8 @@ class MetricsCalculator:
                 'Макс. смена (ч)': getattr(data, 'T_shift_max', data.T_shift + 4),
                 'Лимит переработки (ч)': getattr(data, 'T_shift_max', data.T_shift + 4) - data.T_shift,
                 'Штраф: неубранный урожай (руб/т)': data.M_big,
-                'Штраф: переработка комбайна (руб/ч)': 2000.0,
-                'Штраф: переработка грузовика (руб/ч)': 2000.0,
+                'Штраф: переработка комбайна (руб/ч)': data.M_big,
+                'Штраф: переработка грузовика (руб/ч)': data.M_big,
                 'Штраф: недоотгрузка элеватора (руб/т)': data.M_big,
                 'Штраф: переполнение склада (руб/т)': data.M_big,
                 'Штраф: простой/неравномерность (руб/окно)': data.M_big,
@@ -713,7 +713,6 @@ class MetricsCalculator:
                 'harvest': harvest_list,         # Убрано за день
                 'outflow': outflow_list,         # Вывезено за день
                 'losses': losses_list,           # Потери за день
-                # Для удобства: баланс (проверка)
                 'balance_check': [
                     round(stock_start[j]*(1-loss_rate) + harvest_list[j] - outflow_list[j] - stock_end[j], 3)
                     for j in range(len(days_list))
@@ -861,7 +860,7 @@ def print_input_summary(summary: Dict, indent: int = 0):
 
             for key, val in content.items():
                 if isinstance(val, dict):
-                    print(f"{prefix}  📁 {key}:")
+                    print(f"{prefix}  {key}:")
                     for k2, v2 in val.items():
                         formatted = f"{v2:.2f}" if isinstance(v2, float) else str(v2)
                         print(f"{prefix}    • {k2}: {formatted}")
