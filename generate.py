@@ -475,7 +475,7 @@ class HarvestDataGenerator:
                 }
                 pd.DataFrame([config_flat]).to_excel(writer, sheet_name='Config', index=False)
 
-            print(f"\n💾 Данные сохранены в Excel: {filepath}")
+            print(f"\n Данные сохранены в Excel: {filepath}")
 
         except ImportError:
             print("\n pandas/openpyxl не установлены. Сохранение только в JSON.")
